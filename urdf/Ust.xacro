@@ -1,0 +1,669 @@
+<?xml version="1.0" ?>
+<robot name="Ust" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<xacro:include filename="$(find Ust_description)/urdf/materials.xacro" />
+<!-- <xacro:include filename="$(find Ust_description)/urdf/Ust.gazebo" /> -->
+
+
+<link name="base_link">
+  <inertial>
+    <origin xyz="0.21726979108343836 0.31554928565630336 1.3434719701843352" rpy="0 0 0"/>
+    <mass value="410.87636679283054"/>
+    <inertia ixx="228.848409" iyy="306.967389" izz="497.581476" ixy="104.078211" iyz="-9.820463" ixz="24.258236"/>
+  </inertial>
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="pinky_proximal_link_1">
+  <inertial>
+    <origin xyz="-0.09633452410686386 -0.19837400851488807 0.07972699249400339" rpy="0 0 0"/>
+    <mass value="20.744032894254225"/>
+    <inertia ixx="0.318386" iyy="0.179238" izz="0.342258" ixy="-0.144374" iyz="0.122843" ixz="0.067949"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.009831 -0.327157 -1.608337" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/pinky_proximal_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.009831 -0.327157 -1.608337" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/pinky_proximal_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="pinky_middle_link_1">
+  <inertial>
+    <origin xyz="-0.19802496993487337 -0.08298101191322049 -0.05626242517055369" rpy="0 0 0"/>
+    <mass value="17.471201306072082"/>
+    <inertia ixx="0.202222" iyy="0.468101" izz="0.513923" ixy="-0.208352" iyz="-0.07819" ixz="-0.16151"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.170654 -0.023757 -1.760697" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/pinky_middle_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.170654 -0.023757 -1.760697" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/pinky_middle_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="pinky_distal_link_1">
+  <inertial>
+    <origin xyz="-0.2776153225741633 -0.08153129580834886 -0.21215754739543558" rpy="0 0 0"/>
+    <mass value="26.933549905275427"/>
+    <inertia ixx="0.910047" iyy="1.122791" izz="0.778418" ixy="-0.094204" iyz="0.21576" ixz="-0.392024"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.523436 0.143126 -1.618164" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/pinky_distal_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.523436 0.143126 -1.618164" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/pinky_distal_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="pinky_fingertip_1">
+  <inertial>
+    <origin xyz="0.06476353103624788 0.0698900913914091 0.05857527826421194" rpy="0 0 0"/>
+    <mass value="8.856645521825564"/>
+    <inertia ixx="0.058576" iyy="0.074516" izz="0.083452" ixy="-0.010974" iyz="-0.018258" ixz="-0.00578"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.773939 -0.046695 -1.091329" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/pinky_fingertip_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.773939 -0.046695 -1.091329" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/pinky_fingertip_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="ring_proximal_link_1">
+  <inertial>
+    <origin xyz="-0.010924617257804876 -0.17971670658296002 0.15028586234368402" rpy="0 0 0"/>
+    <mass value="20.744312703181624"/>
+    <inertia ixx="0.399751" iyy="0.221057" izz="0.21882" ixy="-0.037399" iyz="0.188109" ixz="0.02708"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.007976 -0.121387 -1.465623" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/ring_proximal_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.007976 -0.121387 -1.465623" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/ring_proximal_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="ring_middle_link_1">
+  <inertial>
+    <origin xyz="-0.16630169663246858 -0.14553550850469563 0.020515480116603424" rpy="0 0 0"/>
+    <mass value="17.469080933035343"/>
+    <inertia ixx="0.324746" iyy="0.281867" izz="0.577499" ixy="-0.279808" iyz="0.009928" ixz="-0.001768"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.050337 0.152282 -1.732402" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/ring_middle_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.050337 0.152282 -1.732402" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/ring_middle_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="ring_distal_link_1">
+  <inertial>
+    <origin xyz="0.347542 0.442609 -1.73447" rpy="0 0 0"/>
+    <mass value="0.0"/>
+    <inertia ixx="0.0" iyy="0.0" izz="0.0" ixy="0.0" iyz="0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.347542 0.442609 -1.73447" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/ring_distal_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.347542 0.442609 -1.73447" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/ring_distal_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="ring_fingertip_1">
+  <inertial>
+    <origin xyz="0.05658412680842417 0.06866236840730972 0.06777661716763328" rpy="0 0 0"/>
+    <mass value="8.856645521825527"/>
+    <inertia ixx="0.060483" iyy="0.075508" izz="0.080552" ixy="-0.008826" iyz="-0.019724" ixz="-0.00837"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.73187 0.506348 -1.260573" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/ring_fingertip_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.73187 0.506348 -1.260573" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/ring_fingertip_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="middle_proximal_link_1">
+  <inertial>
+    <origin xyz="-0.0023725192779023158 -0.18265124482581635 0.1470933244462016" rpy="0 0 0"/>
+    <mass value="20.741857301566476"/>
+    <inertia ixx="0.403248" iyy="0.210352" izz="0.226183" ixy="-0.029828" iyz="0.188729" ixz="0.018178"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.121189 -0.012114 -1.340494" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/middle_proximal_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.121189 -0.012114 -1.340494" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/middle_proximal_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="middle_middle_link_1">
+  <inertial>
+    <origin xyz="-0.15671224914521592 -0.1565258534226983 0.014204082933150897" rpy="0 0 0"/>
+    <mass value="17.47001761354746"/>
+    <inertia ixx="0.362899" iyy="0.245998" izz="0.577385" ixy="-0.274503" iyz="-0.001986" ixz="-0.012077"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.09106 0.268374 -1.601778" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/middle_middle_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.09106 0.268374 -1.601778" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/middle_middle_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="middle_distal_link_1">
+  <inertial>
+    <origin xyz="0.1862 0.577658 -1.592161" rpy="0 0 0"/>
+    <mass value="0.0"/>
+    <inertia ixx="0.0" iyy="0.0" izz="0.0" ixy="0.0" iyz="0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.1862 0.577658 -1.592161" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/middle_distal_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.1862 0.577658 -1.592161" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/middle_distal_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="middle_fingertip_1">
+  <inertial>
+    <origin xyz="0.0502451511847849 0.06872197039199535 0.07254436678739662" rpy="0 0 0"/>
+    <mass value="8.856645521825554"/>
+    <inertia ixx="0.062042" iyy="0.076155" izz="0.078346" ixy="-0.008419" iyz="-0.020638" ixz="-0.008418"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.554635 0.658326 -1.108328" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/middle_fingertip_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.554635 0.658326 -1.108328" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/middle_fingertip_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="index_proximal_link_1">
+  <inertial>
+    <origin xyz="-0.0445164206701556 -0.20995827760354666 0.09450888730583618" rpy="0 0 0"/>
+    <mass value="20.743730490982056"/>
+    <inertia ixx="0.378725" iyy="0.138001" izz="0.322984" ixy="-0.091854" iyz="0.149024" ixz="0.042222"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.363745 -0.013583 -1.253739" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/index_proximal_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.363745 -0.013583 -1.253739" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/index_proximal_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="index_middle_link_1">
+  <inertial>
+    <origin xyz="-0.16846426035977852 -0.13519367120419196 -0.05106869151348392" rpy="0 0 0"/>
+    <mass value="17.47061809499965"/>
+    <inertia ixx="0.330848" iyy="0.329709" izz="0.523717" ixy="-0.253351" iyz="-0.110678" ixz="-0.1226"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.262764 0.313799 -1.428328" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/index_middle_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.262764 0.313799 -1.428328" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/index_middle_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="index_distal_link_1">
+  <inertial>
+    <origin xyz="-0.24135912931446277 -0.1661836437397981 -0.20746535973173796" rpy="0 0 0"/>
+    <mass value="26.985876913728696"/>
+    <inertia ixx="1.006844" iyy="1.088402" izz="0.745308" ixy="-0.170954" iyz="0.082289" ixz="-0.412119"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.031278 0.576175 -1.2967" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/index_distal_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.031278 0.576175 -1.2967" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/index_distal_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="index_fingertip_1">
+  <inertial>
+    <origin xyz="0.04509194085570378 0.0681565688559751 0.07636340839554456" rpy="0 0 0"/>
+    <mass value="8.85664552182553"/>
+    <inertia ixx="0.063249" iyy="0.076926" izz="0.076367" ixy="-0.008131" iyz="-0.021272" ixz="-0.008213"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.306982 0.497415 -0.754354" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/index_fingertip_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.306982 0.497415 -0.754354" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/index_fingertip_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="thumb_proximal_link_1">
+  <inertial>
+    <origin xyz="0.11979434234171693 -0.18948020014683534 -0.06893822725141097" rpy="0 0 0"/>
+    <mass value="20.74194442894546"/>
+    <inertia ixx="0.347853" iyy="0.122139" izz="0.369592" ixy="0.138883" iyz="-0.092103" ixz="0.041785"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.921675 -0.43421 -1.239485" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/thumb_proximal_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.921675 -0.43421 -1.239485" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/thumb_proximal_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="thumb_middle_link_1">
+  <inertial>
+    <origin xyz="-0.008323742158957481 -0.09655472250808725 -0.19969335644003428" rpy="0 0 0"/>
+    <mass value="17.468799088663395"/>
+    <inertia ixx="0.581615" iyy="0.504859" izz="0.097564" ixy="0.021366" iyz="-0.186169" ixz="0.033227"/>
+  </inertial>
+  <visual>
+    <origin xyz="-1.085562 -0.103995 -1.130106" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/thumb_middle_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-1.085562 -0.103995 -1.130106" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/thumb_middle_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="thumb_distal_link_1">
+  <inertial>
+    <origin xyz="-0.02316787206014559 -0.021930806276583552 -0.357437537944888" rpy="0 0 0"/>
+    <mass value="26.96990136320862"/>
+    <inertia ixx="1.261224" iyy="1.017611" izz="0.553097" ixy="0.229007" iyz="0.13419" ixz="-0.194309"/>
+  </inertial>
+  <visual>
+    <origin xyz="-1.093558 0.043941 -0.741933" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/thumb_distal_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-1.093558 0.043941 -0.741933" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/thumb_distal_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="thumb_fingertip_1">
+  <inertial>
+    <origin xyz="-0.030981377642068986 0.0015884781099702039 0.10746041916204319" rpy="0 0 0"/>
+    <mass value="8.85664552182555"/>
+    <inertia ixx="0.077308" iyy="0.090083" izz="0.049152" ixy="-0.010392" iyz="-0.00829" ixz="0.005543"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.888552 -0.290967 -0.270604" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/thumb_fingertip_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.888552 -0.290967 -0.270604" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find Ust_description)/meshes/thumb_fingertip_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<joint name="pinky_mcp_joint" type="continuous">
+  <origin xyz="0.009831 0.327157 1.608337" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="pinky_proximal_link_1"/>
+  <axis xyz="-0.568386 0.613454 0.548281"/>
+</joint>
+
+<joint name="pinky_pip_joint" type="continuous">
+  <origin xyz="-0.180485 -0.3034 0.15236" rpy="0 0 0"/>
+  <parent link="pinky_proximal_link_1"/>
+  <child link="pinky_middle_link_1"/>
+  <axis xyz="0.568386 -0.613454 -0.548281"/>
+</joint>
+
+<joint name="pinky_bracket_fixed_joint" type="fixed">
+  <origin xyz="-0.352782 -0.166883 -0.142533" rpy="0 0 0"/>
+  <parent link="pinky_middle_link_1"/>
+  <child link="pinky_distal_link_1"/>
+</joint>
+
+<joint name="pinky_dip_joint" type="continuous">
+  <origin xyz="-0.250503 0.189821 -0.526835" rpy="0 0 0"/>
+  <parent link="pinky_distal_link_1"/>
+  <child link="pinky_fingertip_1"/>
+  <axis xyz="-0.568391 0.613479 0.548247"/>
+</joint>
+
+<joint name="ring_mcp_joint" type="continuous">
+  <origin xyz="-0.007976 0.121387 1.465623" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="ring_proximal_link_1"/>
+  <axis xyz="-0.63678 0.586498 0.500532"/>
+</joint>
+
+<joint name="ring_pip_joint" type="continuous">
+  <origin xyz="-0.042361 -0.273669 0.266779" rpy="0 0 0"/>
+  <parent link="ring_proximal_link_1"/>
+  <child link="ring_middle_link_1"/>
+  <axis xyz="0.63678 -0.586498 -0.500532"/>
+</joint>
+
+<joint name="ring_bracket_fixed_joint" type="fixed">
+  <origin xyz="-0.297205 -0.290327 0.002068" rpy="0 0 0"/>
+  <parent link="ring_middle_link_1"/>
+  <child link="ring_distal_link_1"/>
+</joint>
+
+<joint name="ring_dip_joint" type="continuous">
+  <origin xyz="-0.384328 -0.063739 -0.473897" rpy="0 0 0"/>
+  <parent link="ring_distal_link_1"/>
+  <child link="ring_fingertip_1"/>
+  <axis xyz="-0.636671 0.58642 0.500762"/>
+</joint>
+
+<joint name="middle_mcp_joint" type="continuous">
+  <origin xyz="0.121189 0.012114 1.340494" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="middle_proximal_link_1"/>
+  <axis xyz="-0.685416 0.534378 0.494616"/>
+</joint>
+
+<joint name="middle_pip_joint" type="continuous">
+  <origin xyz="-0.030129 -0.280488 0.261284" rpy="0 0 0"/>
+  <parent link="middle_proximal_link_1"/>
+  <child link="middle_middle_link_1"/>
+  <axis xyz="0.685416 -0.534378 -0.494616"/>
+</joint>
+
+<joint name="middle_bracket_fixed_joint" type="fixed">
+  <origin xyz="-0.27726 -0.309284 -0.009617" rpy="0 0 0"/>
+  <parent link="middle_middle_link_1"/>
+  <child link="middle_distal_link_1"/>
+</joint>
+
+<joint name="middle_dip_joint" type="continuous">
+  <origin xyz="-0.368435 -0.080668 -0.483833" rpy="0 0 0"/>
+  <parent link="middle_distal_link_1"/>
+  <child link="middle_fingertip_1"/>
+  <axis xyz="-0.685337 0.534309 0.4948"/>
+</joint>
+
+<joint name="index_mcp_joint" type="continuous">
+  <origin xyz="0.363745 0.013583 1.253739" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="index_proximal_link_1"/>
+  <axis xyz="-0.721959 0.48557 0.492947"/>
+</joint>
+
+<joint name="index_pip_joint" type="continuous">
+  <origin xyz="-0.100981 -0.327382 0.174589" rpy="0 0 0"/>
+  <parent link="index_proximal_link_1"/>
+  <child link="index_middle_link_1"/>
+  <axis xyz="0.721959 -0.48557 -0.492947"/>
+</joint>
+
+<joint name="index_bracket_fixed_joint" type="fixed">
+  <origin xyz="-0.294042 -0.262376 -0.131628" rpy="0 0 0"/>
+  <parent link="index_middle_link_1"/>
+  <child link="index_distal_link_1"/>
+</joint>
+
+<joint name="index_dip_joint" type="continuous">
+  <origin xyz="-0.275704 0.07876 -0.542346" rpy="0 0 0"/>
+  <parent link="index_distal_link_1"/>
+  <child link="index_fingertip_1"/>
+  <axis xyz="-0.721981 0.485627 0.492858"/>
+</joint>
+
+<joint name="thumb_mcp_joint" type="continuous">
+  <origin xyz="0.921675 0.43421 1.239485" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="thumb_proximal_link_1"/>
+  <axis xyz="-0.875357 -0.470831 0.109858"/>
+</joint>
+
+<joint name="thumb_pip_joint" type="continuous">
+  <origin xyz="0.163887 -0.330215 -0.109379" rpy="0 0 0"/>
+  <parent link="thumb_proximal_link_1"/>
+  <child link="thumb_middle_link_1"/>
+  <axis xyz="0.875357 0.470831 -0.109858"/>
+</joint>
+
+<joint name="thumb_bracket_fixed_joint" type="fixed">
+  <origin xyz="0.007996 -0.147936 -0.388173" rpy="0 0 0"/>
+  <parent link="thumb_middle_link_1"/>
+  <child link="thumb_distal_link_1"/>
+</joint>
+
+<joint name="thumb_dip_joint" type="continuous">
+  <origin xyz="-0.205006 0.334908 -0.471329" rpy="0 0 0"/>
+  <parent link="thumb_distal_link_1"/>
+  <child link="thumb_fingertip_1"/>
+  <axis xyz="-0.875374 -0.470795 0.109874"/>
+</joint>
+<ros2_control name="UstRoboPalmSystem" type="system">
+  <hardware>
+    <plugin>ign_ros2_control/IgnitionSystem</plugin>
+  </hardware>
+
+  <joint name="pinky_mcp_joint">
+    <command_interface name="effort"/>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+    <state_interface name="effort"/>
+  </joint>
+  <joint name="pinky_pip_joint">
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+    <state_interface name="effort"/>
+  </joint>
+  <joint name="pinky_dip_joint">
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+    <state_interface name="effort"/>
+  </joint>
+  <joint name="ring_mcp_joint">
+    <command_interface name="effort"/>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+    <state_interface name="effort"/>
+  </joint>
+  <joint name="ring_pip_joint">
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+    <state_interface name="effort"/>
+  </joint>
+  <joint name="ring_dip_joint">
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+    <state_interface name="effort"/>
+  </joint>
+  <joint name="middle_mcp_joint">
+    <command_interface name="effort"/>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+    <state_interface name="effort"/>
+  </joint>
+  <joint name="middle_pip_joint">
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+    <state_interface name="effort"/>
+  </joint>
+  <joint name="middle_dip_joint">
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+    <state_interface name="effort"/>
+  </joint>
+  <joint name="index_mcp_joint">
+    <command_interface name="effort"/>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+    <state_interface name="effort"/>
+  </joint>
+  <joint name="index_pip_joint">
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+    <state_interface name="effort"/>
+  </joint>
+  <joint name="index_dip_joint">
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+    <state_interface name="effort"/>
+  </joint>
+  <joint name="thumb_mcp_joint">
+    <command_interface name="effort"/>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+    <state_interface name="effort"/>
+  </joint>
+  <joint name="thumb_pip_joint">
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+    <state_interface name="effort"/>
+  </joint>
+  <joint name="thumb_dip_joint">
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+    <state_interface name="effort"/>
+  </joint>
+</ros2_control>
+</robot>
