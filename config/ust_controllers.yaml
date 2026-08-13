@@ -1,0 +1,18 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 100
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    mcp_effort_controller:
+      type: effort_controllers/JointGroupEffortController
+
+mcp_effort_controller:
+  ros__parameters:
+    joints:
+      - index_mcp_joint
+      - middle_mcp_joint
+      - ring_mcp_joint
+      - pinky_mcp_joint
+      - thumb_mcp_joint

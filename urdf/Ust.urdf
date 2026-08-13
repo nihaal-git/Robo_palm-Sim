@@ -555,9 +555,118 @@
       </force_torque>
     </sensor>
   </gazebo>
-
-
-
+  <gazebo reference="thumb_pip_joint">
+    <sensor name="thumb_pip_force_torque" type="force_torque">
+      <update_rate>2</update_rate>
+      <force_torque>
+        <frame>child</frame>
+      </force_torque>
+    </sensor>
+  </gazebo>
+  <gazebo reference= "thumb_mcp_joint">
+    <sensor name= "thumb_mcp_force_torque" type="force_torque">
+      <update_rate>2</update_rate>
+      <force_torque>
+        <frame>child</frame>
+      </force_torque>
+    </sensor>
+  </gazebo>
+  <gazebo reference= "index_mcp_joint">
+    <sensor name= "index_mcp_force_torque" type="force_torque">
+      <update_rate>2</update_rate>
+      <force_torque>
+        <frame>child</frame>
+      </force_torque>
+    </sensor>
+  </gazebo>
+  <gazebo reference= "index_pip_joint">
+    <sensor name= "index_pip_force_torque" type="force_torque">
+      <update_rate>2</update_rate>
+      <force_torque>
+        <frame>child</frame>
+      </force_torque>
+    </sensor>
+  </gazebo>
+  <gazebo reference= "index_dip_joint">
+    <sensor name= "index_dip_force_torque" type="force_torque">
+      <update_rate>2</update_rate>
+      <force_torque>
+        <frame>child</frame>
+      </force_torque>
+    </sensor>
+  </gazebo>
+  <gazebo reference= "middle_mcp_joint">
+    <sensor name= "middle_mcp_force_torque" type="force_torque">
+      <update_rate>2</update_rate>
+      <force_torque>
+        <frame>child</frame>
+      </force_torque>
+    </sensor>
+  </gazebo>
+  <gazebo reference= "middle_pip_joint">
+    <sensor name= "middle_pip_force_torque" type="force_torque">
+      <update_rate>2</update_rate>
+      <force_torque>
+        <frame>child</frame>
+      </force_torque>
+    </sensor>
+  </gazebo>
+  <gazebo reference= "middle_dip_joint">
+    <sensor name= "middle_dip_force_torque" type="force_torque">
+      <update_rate>2</update_rate>
+      <force_torque>
+        <frame>child</frame>
+      </force_torque>
+    </sensor>
+  </gazebo>
+  <gazebo reference= "ring_mcp_joint">
+    <sensor name= "ring_mcp_force_torque" type="force_torque">
+      <update_rate>2</update_rate>
+      <force_torque>
+        <frame>child</frame>
+      </force_torque>
+    </sensor>
+  </gazebo>
+  <gazebo reference= "ring_pip_joint">
+    <sensor name= "ring_pip_force_torque" type="force_torque">
+      <update_rate>2</update_rate>
+      <force_torque>
+        <frame>child</frame>
+      </force_torque>
+    </sensor>
+  </gazebo>
+  <gazebo reference= "ring_dip_joint">
+    <sensor name= "ring_dip_force_torque" type="force_torque">
+      <update_rate>2</update_rate>
+      <force_torque>
+        <frame>child</frame>
+      </force_torque>
+    </sensor>
+  </gazebo>
+  <gazebo reference= "pinky_mcp_joint">
+    <sensor name= "pinky_mcp_force_torque" type="force_torque">
+      <update_rate>2</update_rate>
+      <force_torque>
+        <frame>child</frame>
+      </force_torque>
+    </sensor>
+  </gazebo>
+  <gazebo reference= "pinky_pip_joint">
+    <sensor name= "pinky_pip_force_torque" type="force_torque">
+      <update_rate>2</update_rate>
+      <force_torque>
+        <frame>child</frame>
+      </force_torque>
+    </sensor>
+  </gazebo>
+  <gazebo reference= "pinky_dip_joint">
+    <sensor name= "pinky_dip_force_torque" type="force_torque">
+      <update_rate>2</update_rate>
+      <force_torque>
+        <frame>child</frame>
+      </force_torque>
+    </sensor>
+  </gazebo>
   <!-- <ros2_control name="UstRoboPalmSystem" type="system">
   <hardware>
     <plugin>ign_ros2_control/IgnitionSystem</plugin>

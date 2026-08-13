@@ -5,24 +5,14 @@ controller_manager:
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
 
-    hand_position_controller:
-      type: position_controllers/JointGroupPositionController
+    mcp_effort_controller:
+      type: effort_controllers/JointGroupEffortController
 
-hand_position_controller:
+mcp_effort_controller:
   ros__parameters:
     joints:
-      - pinky_mcp_joint
-      - pinky_pip_joint
-      - pinky_dip_joint
-      - ring_mcp_joint
-      - ring_pip_joint
-      - ring_dip_joint
-      - middle_mcp_joint
-      - middle_pip_joint
-      - middle_dip_joint
       - index_mcp_joint
-      - index_pip_joint
-      - index_dip_joint
+      - middle_mcp_joint
+      - ring_mcp_joint
+      - pinky_mcp_joint
       - thumb_mcp_joint
-      - thumb_pip_joint
-      - thumb_dip_joint

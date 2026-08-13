@@ -17,7 +17,6 @@ def generate_launch_description():
     robot_doc = xacro.parse(open(xacro_file))
     xacro.process_doc(robot_doc)
     robot_description = robot_doc.toxml()
-
     world_file_path = os.path.join(share_dir, "worlds", "empty.sdf")
 
     # launch args
@@ -58,7 +57,29 @@ def generate_launch_description():
             "gz_args": "-g -v1 "
         }.items()
     )
+    # publishes TF from joint states
+    robot_state_publisher_node = Node(
+        package="robot_state_publisher",
+        executable="robot_state_publisher",
+        parameters=[{"robot_description": robot_description, "use_sim_time": True}],
+        output="screen"
+    )
 
+    # activates joint_state_broadcaster
+    joint_state_broadcaster_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["joint_state_broadcaster"],
+        output="screen"
+    )
+
+    # activates your effort controller
+    mcp_effort_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["mcp_effort_controller"],
+        output="screen"
+    )
 
     # spawn model in gz sim
     spawner_node = Node(
@@ -75,14 +96,22 @@ def generate_launch_description():
         output="screen"
     )
 
-
-
-
-
+    #spawn model in rviz
+    rviz_node = Node(
+    package='rviz2',
+    executable='rviz2',
+    name='rviz2',
+    arguments=['-d', os.path.join(share_dir, 'rviz', 'ust_config.rviz')],  # optional saved config
+    output='screen'
+    )
     ld = LaunchDescription()
     ld.add_action(use_sim_time_arg)
     ld.add_action(pause_sim_arg)
     ld.add_action(ign_gz_sim_server_launcher)
     ld.add_action(ign_gz_sim_client_launcher)
     ld.add_action(spawner_node)
+    ld.add_action(robot_state_publisher_node)
+    ld.add_action(rviz_node)
+    # ld.add_action(joint_state_broadcaster_spawner)
+    # ld.add_action(mcp_effort_controller_spawner)
     return ld
