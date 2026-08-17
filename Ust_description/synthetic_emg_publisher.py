@@ -10,17 +10,17 @@ class SyntheticEMGPublisher(Node):
         self.baseline_level = 0.03
         self.peak_level = 0.85
         self.baseline_duration = 2.0
-        self.ramp_up_duraiton = 2.0
+        self.ramp_up_duration = 2.0
         self.hold_duration = 3.0
         self.ramp_down_duration = 2.0
         self.noise_amplitude = 0.02
         self.publish_rate_hz = 50
 
         self.t_baseline_end = self.baseline_duration
-        self.t_rampup_end = self.t_baseline_end + self.ramp_up_duraiton
+        self.t_rampup_end = self.t_baseline_end + self.ramp_up_duration
         self.t_hold_end = self.t_rampup_end +  self.hold_duration
-        self.t_ramp_down_end = self.t_hold_end + self.ramp_down_duration
-        self.cycle_duration = self.t_ramp_down_end
+        self.t_rampdown_end = self.t_hold_end + self.ramp_down_duration
+        self.cycle_duration = self.t_rampdown_end
         self.publisher = self.create_publisher(Float32, '/emg/forearm_activation', 10)
         self.start_time = self.get_clock().now()
         timer_period = 1.0 / self.publish_rate_hz
@@ -45,7 +45,7 @@ class SyntheticEMGPublisher(Node):
  
         msg = Float32()
         msg.data = value
-        self.publisher_.publish(msg)
+        self.publisher.publish(msg)
  
     def _compute_value_for_phase(self, t: float) -> float:
         """Return the ideal (noise-free) signal value for elapsed time t within one cycle."""
@@ -83,7 +83,8 @@ def main(args=None):
         pass
     finally:
         node.destroy_node()
-        rclpy.shutdown()
+        if rclpy.ok():
+            rclpy.shutdown()
  
  
 if __name__ == '__main__':
