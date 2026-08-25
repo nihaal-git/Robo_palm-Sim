@@ -98,11 +98,11 @@ def generate_launch_description():
 
     #spawn model in rviz
     rviz_node = Node(
-    package='rviz2',
-    executable='rviz2',
-    name='rviz2',
-    arguments=['-d', os.path.join(share_dir, 'rviz', 'ust_config.rviz')],  # optional saved config
-    output='screen'
+        package='rviz2',
+        executable='rviz2',
+        name='rviz2',
+        arguments=['-d', os.path.join(share_dir, 'rviz', 'ust_config.rviz')],  # optional saved config
+        output='screen'
     )
     ld = LaunchDescription()
     ld.add_action(use_sim_time_arg)
@@ -112,6 +112,6 @@ def generate_launch_description():
     ld.add_action(spawner_node)
     ld.add_action(robot_state_publisher_node)
     ld.add_action(rviz_node)
-    # ld.add_action(joint_state_broadcaster_spawner)
-    # ld.add_action(mcp_effort_controller_spawner)
+    ld.add_action(joint_state_broadcaster_spawner)
+    ld.add_action(mcp_effort_controller_spawner)
     return ld
