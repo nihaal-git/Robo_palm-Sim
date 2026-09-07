@@ -1,0 +1,71 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 100
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+    mcp_trajectory_controller:
+      type: "joint_trajectory_controller/JointTrajectoryController"
+
+mcp_trajectory_controller:
+  ros__parameters:
+    joints:
+      - pinky_mcp_joint
+      - ring_mcp_joint
+      - middle_mcp_joint
+      - index_mcp_joint
+      - thumb_mcp_joint
+
+    command_interfaces:
+      - velocity
+
+    state_interfaces:
+      - position
+      - velocity
+
+    # --- General behavior settings ---
+    allow_partial_joints_goal: true
+    allow_trajectory_replacement: true
+    action_monitor_rate: 20.0
+    interpolation_method: splines
+
+    # allow_partial_joints_goal: false
+    open_loop_control: false
+    constraints:
+      stopped_velocity_tolerance: 0.05
+      goal_time: 1.0
+      pinky_mcp_joint:  { trajectory: 0.0, goal: 0.1 }
+      ring_mcp_joint:   { trajectory: 0.0, goal: 0.1 }
+      middle_mcp_joint: { trajectory: 0.0, goal: 0.1 }
+      index_mcp_joint:  { trajectory: 0.0, goal: 0.1 }
+      thumb_mcp_joint:  { trajectory: 0.0, goal: 0.1 }
+  
+    # # --- PID gains ---
+    gains:
+      pinky_mcp_joint:
+        p: 20.0
+        i: 0.0
+        d: 1.0
+        ff_velocity_scale: 1.0
+      ring_mcp_joint:   
+        p: 20.0
+        i: 0.0
+        d: 1.0
+        ff_velocity_scale: 1.0
+        # TODO: add output response clamping
+      middle_mcp_joint:
+        p: 20.0
+        i: 0.0 
+        d: 1.0
+        ff_velocity_scale: 1.0
+      index_mcp_joint:
+        p: 20.0
+        i: 0.0 
+        d: 1.0
+        ff_velocity_scale: 1.0
+      thumb_mcp_joint:  
+        p: 20.0
+        i: 0.0
+        d: 1.0
+        ff_velocity_scale: 1.0
+    
+ 
