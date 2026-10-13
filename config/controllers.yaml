@@ -7,6 +7,10 @@ controller_manager:
 
     mcp_effort_controller:
       type: effort_controllers/JointGroupEffortController
+    pip_effort_controller:
+      type: effort_controllers/JointGroupEffortController
+    dip_effort_controller:
+      type: effort_controllers/JointGroupEffortController
 
 mcp_effort_controller:
   ros__parameters:
@@ -16,3 +20,19 @@ mcp_effort_controller:
       - middle_mcp_joint
       - index_mcp_joint
       - thumb_mcp_joint
+pip_effort_controller:
+  ros__parameters:
+    joints:
+      - pinky_pip_joint
+      - ring_pip_joint
+      - middle_pip_joint
+      - index_pip_joint
+      - thumb_pip_joint
+dip_effort_controller:
+  ros__parameters:
+    joints:
+      - pinky_dip_joint
+      - ring_dip_joint
+      - middle_dip_joint
+      - index_dip_joint
+      - thumb_dip_joint
