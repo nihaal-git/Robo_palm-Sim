@@ -81,6 +81,20 @@ def generate_launch_description():
         output="screen"
     )
 
+    pip_effort_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["pip_effort_controller"],
+        output="screen"
+    )
+
+    dip_effort_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["dip_effort_controller"],
+        output="screen"
+    )
+
     # spawn model in gz sim
     spawner_node = Node(
         package="ros_gz_sim",
@@ -114,4 +128,6 @@ def generate_launch_description():
     ld.add_action(rviz_node)
     ld.add_action(joint_state_broadcaster_spawner)
     ld.add_action(mcp_effort_controller_spawner)
+    ld.add_action(pip_effort_controller_spawner)
+    ld.add_action(dip_effort_controller_spawner)
     return ld
