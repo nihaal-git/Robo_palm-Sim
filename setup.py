@@ -27,9 +27,12 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'admittance_controller = Ust_description.admittance_controller:main',
+            'test_data_sender = Ust_description.test_data_sender:main' ,
             'synthetic_emg_publisher = Ust_description.synthetic_emg_publisher:main',
-            'force_assist_controller = Ust_description.force_assist_controller:main',
             'synthetic_fsr_publisher = Ust_description.synthetic_fsr_publisher:main',
+            'force_assist_controller = Ust_description.force_assist_controller:main',
+            
         ],
     },
 )
