@@ -436,14 +436,16 @@
     <parent link="base_link"/>
     <child link="pinky_proximal_link_1"/>
     <axis xyz="-0.568386 0.613454 0.548281"/>
-    <limit lower="-0.7" upper="1.0" effort="10.0" velocity="2.0"/>
+    <limit lower="-0.7" upper="1.0" effort="1000.0" velocity="1000.0"/>
+    <dynamics damping="5.0" friction="5.0"/>
   </joint>
   <joint name="pinky_pip_joint" type="revolute">
     <origin rpy="0 0 0" xyz="-0.180485 -0.3034 0.15236"/>
     <parent link="pinky_proximal_link_1"/>
     <child link="pinky_middle_link_1"/>
     <axis xyz="0.568386 -0.613454 -0.548281"/>
-    <limit lower="-0.8" upper="0.4" effort="10.0" velocity="2.0"/>
+    <limit lower="-0.8" upper="0.4" effort="1000.0" velocity="1000.0"/>
+    <dynamics damping="5.0" friction="5.0"/>
   </joint>
   <joint name="pinky_bracket_fixed_joint" type="fixed">
     <origin rpy="0 0 0" xyz="-0.352782 -0.166883 -0.142533"/>
@@ -455,21 +457,24 @@
     <parent link="pinky_distal_link_1"/>
     <child link="pinky_fingertip_1"/>
     <axis xyz="-0.568391 0.613479 0.548247"/>
-    <limit lower="-0.153" upper="1.24" effort="10.0" velocity="2.0"/>
+    <limit lower="-0.153" upper="1.24" effort="1000.0" velocity="1000.0"/>
+    <dynamics damping="5.0" friction="5.0"/>
   </joint>
   <joint name="ring_mcp_joint" type="revolute">
     <origin rpy="0 0 0" xyz="-0.007976 0.121387 1.465623"/>
     <parent link="base_link"/>
     <child link="ring_proximal_link_1"/>
     <axis xyz="-0.63678 0.586498 0.500532"/>
-    <limit lower="-0.7" upper="1.0" effort="10.0" velocity="2.0"/>
+    <limit lower="-0.7" upper="1.0" effort="1000.0" velocity="1000.0"/>
+    <dynamics damping="5.0" friction="5.0"/>
   </joint>
   <joint name="ring_pip_joint" type="revolute">
     <origin rpy="0 0 0" xyz="-0.042361 -0.273669 0.266779"/>
     <parent link="ring_proximal_link_1"/>
     <child link="ring_middle_link_1"/>
     <axis xyz="0.63678 -0.586498 -0.500532"/>
-    <limit lower="0.4" upper="0.9" effort="10.0" velocity="2.0"/>
+    <limit lower="0.4" upper="0.9" effort="1000.0" velocity="1000.0"/>
+    <dynamics damping="10.0" friction="5.0"/>
   </joint>
   <joint name="ring_bracket_fixed_joint" type="fixed">
     <origin rpy="0 0 0" xyz="-0.297205 -0.290327 0.002068"/>
@@ -481,21 +486,24 @@
     <parent link="ring_distal_link_1"/>
     <child link="ring_fingertip_1"/>
     <axis xyz="-0.636671 0.58642 0.500762"/>
-    <limit lower="-0.153" upper="1.24" effort="10.0" velocity="2.0"/>
+    <limit lower="-0.153" upper="1.24" effort="1000.0" velocity="1000.0"/>
+    <dynamics damping="5.0" friction="5.0"/>
   </joint>
   <joint name="middle_mcp_joint" type="revolute">
     <origin rpy="0 0 0" xyz="0.121189 0.012114 1.340494"/>
     <parent link="base_link"/>
     <child link="middle_proximal_link_1"/>
     <axis xyz="-0.685416 0.534378 0.494616"/>
-    <limit lower="-0.7" upper="1.0" effort="10.0" velocity="2.0"/>
+    <limit lower="-0.7" upper="1.0" effort="1000.0" velocity="1000.0"/>
+    <dynamics damping="5.0" friction="5.0"/>
   </joint>
   <joint name="middle_pip_joint" type="revolute">
     <origin rpy="0 0 0" xyz="-0.030129 -0.280488 0.261284"/>
     <parent link="middle_proximal_link_1"/>
     <child link="middle_middle_link_1"/>
     <axis xyz="0.685416 -0.534378 -0.494616"/>
-    <limit lower="0.4" upper="0.9" effort="10.0" velocity="2.0"/>
+    <limit lower="0.4" upper="0.9" effort="1000.0" velocity="1000.0"/>
+    <dynamics damping="10.0" friction="5.0"/>
   </joint>
   <joint name="middle_bracket_fixed_joint" type="fixed">
     <origin rpy="0 0 0" xyz="-0.27726 -0.309284 -0.009617"/>
@@ -507,21 +515,24 @@
     <parent link="middle_distal_link_1"/>
     <child link="middle_fingertip_1"/>
     <axis xyz="-0.685337 0.534309 0.4948"/>
-    <limit lower="-0.153" upper="1.24" effort="10.0" velocity="2.0"/>
+    <limit lower="-0.153" upper="1.24" effort="1000.0" velocity="1000.0"/>
+    <dynamics damping="5.0" friction="5.0"/>
   </joint>
   <joint name="index_mcp_joint" type="revolute">
     <origin rpy="0 0 0" xyz="0.363745 0.013583 1.253739"/>
     <parent link="base_link"/>
     <child link="index_proximal_link_1"/>
     <axis xyz="-0.721959 0.48557 0.492947"/>
-    <limit lower="-0.7" upper="1.0" effort="10.0" velocity="2.0"/>
+    <limit lower="-0.7" upper="1.0" effort="1000.0" velocity="1000.0"/>
+    <dynamics damping="5.0" friction="5.0"/>
   </joint>
   <joint name="index_pip_joint" type="revolute">
     <origin rpy="0 0 0" xyz="-0.100981 -0.327382 0.174589"/>
     <parent link="index_proximal_link_1"/>
     <child link="index_middle_link_1"/>
     <axis xyz="0.721959 -0.48557 -0.492947"/>
-    <limit lower="-0.4" upper="0.7" effort="10.0" velocity="2.0"/>
+    <limit lower="-0.4" upper="0.7" effort="1000.0" velocity="1000.0"/>
+    <dynamics damping="5.0" friction="5.0"/>
   </joint>
   <joint name="index_bracket_fixed_joint" type="fixed">
     <origin rpy="0 0 0" xyz="-0.294042 -0.262376 -0.131628"/>
@@ -533,21 +544,24 @@
     <parent link="index_distal_link_1"/>
     <child link="index_fingertip_1"/>
     <axis xyz="-0.721981 0.485627 0.492858"/>
-    <limit lower="-0.153" upper="1.24" effort="10.0" velocity="2.0"/>
+    <limit lower="-0.153" upper="1.24" effort="1000.0" velocity="1000.0"/>
+    <dynamics damping="5.0" friction="5.0"/>
   </joint>
   <joint name="thumb_mcp_joint" type="revolute">
     <origin rpy="0 0 0" xyz="0.921675 0.43421 1.239485"/>
     <parent link="base_link"/>
     <child link="thumb_proximal_link_1"/>
     <axis xyz="-0.875357 -0.470831 0.109858"/>
-    <limit lower="-0.35" upper="0.65" effort="10.0" velocity="2.0"/>
+    <limit lower="-0.35" upper="0.65" effort="1000.0" velocity="1000.0"/>
+    <dynamics damping="5.0" friction="5.0"/>
   </joint>
   <joint name="thumb_pip_joint" type="revolute">
     <origin rpy="0 0 0" xyz="0.163887 -0.330215 -0.109379"/>
     <parent link="thumb_proximal_link_1"/>
     <child link="thumb_middle_link_1"/>
     <axis xyz="0.875357 0.470831 -0.109858"/>
-    <limit lower="-0.628" upper="0.527" effort="10.0" velocity="2.0"/>
+    <limit lower="-0.628" upper="0.527" effort="1000.0" velocity="1000.0"/>
+    <dynamics damping="5.0" friction="5.0"/>
   </joint>
   <joint name="thumb_bracket_fixed_joint" type="fixed">
     <origin rpy="0 0 0" xyz="0.007996 -0.147936 -0.388173"/>
@@ -559,7 +573,8 @@
     <parent link="thumb_distal_link_1"/>
     <child link="thumb_fingertip_1"/>
     <axis xyz="-0.875374 -0.470795 0.109874"/>
-    <limit lower="-0.153" upper="1.24" effort="10.0" velocity="2.0"/>
+    <limit lower="-0.153" upper="1.24" effort="1000.0" velocity="1000.0"/>
+    <dynamics damping="5.0" friction="5.0"/>
   </joint>
   <!-- Get joint vel and pos feedback -->
   <!-- <gazebo>
@@ -697,90 +712,80 @@
     </hardware>
 
     <joint name="pinky_mcp_joint">
-      <command_interface name="effort"/>
+      <command_interface name="velocity"/>
+      <!-- <command_interface name="position"/> -->
       <state_interface name="position"/>
       <state_interface name="velocity"/>
-      <state_interface name="effort"/>
     </joint>
     <joint name="pinky_pip_joint">
       <state_interface name="position"/>
       <state_interface name="velocity"/>
-      <state_interface name="effort"/>
     </joint>
     <joint name="pinky_dip_joint">
       <state_interface name="position"/>
       <state_interface name="velocity"/>
-      <state_interface name="effort"/>
     </joint>
     <joint name="ring_mcp_joint">
-      <command_interface name="effort"/>
+      <command_interface name="velocity"/>
+      <!-- <command_interface name="position"/> -->
       <state_interface name="position"/>
       <state_interface name="velocity"/>
-      <state_interface name="effort"/>
     </joint>
     <joint name="ring_pip_joint">
       <state_interface name="position"/>
       <state_interface name="velocity"/>
-      <state_interface name="effort"/>
     </joint>
     <joint name="ring_dip_joint">
       <state_interface name="position"/>
       <state_interface name="velocity"/>
-      <state_interface name="effort"/>
     </joint>
     <joint name="middle_mcp_joint">
-      <command_interface name="effort"/>
+      <command_interface name="velocity"/>
+      <!-- <command_interface name="position"/> -->
       <state_interface name="position"/>
       <state_interface name="velocity"/>
-      <state_interface name="effort"/>
     </joint>
     <joint name="middle_pip_joint">
       <state_interface name="position"/>
       <state_interface name="velocity"/>
-      <state_interface name="effort"/>
     </joint>
     <joint name="middle_dip_joint">
       <state_interface name="position"/>
       <state_interface name="velocity"/>
-      <state_interface name="effort"/>
     </joint>
     <joint name="index_mcp_joint">
-      <command_interface name="effort"/>
+      <command_interface name="velocity"/>
+      <!-- <command_interface name="position"/> -->
       <state_interface name="position"/>
       <state_interface name="velocity"/>
-      <state_interface name="effort"/>
     </joint>
     <joint name="index_pip_joint">
       <state_interface name="position"/>
       <state_interface name="velocity"/>
-      <state_interface name="effort"/>
     </joint>
     <joint name="index_dip_joint">
       <state_interface name="position"/>
       <state_interface name="velocity"/>
-      <state_interface name="effort"/>
     </joint>
     <joint name="thumb_mcp_joint">
-      <command_interface name="effort"/>
+      <command_interface name="velocity"/>
+      <!-- <command_interface name="position"/> -->
       <state_interface name="position"/>
       <state_interface name="velocity"/>
-      <state_interface name="effort"/>
     </joint>
     <joint name="thumb_pip_joint">
       <state_interface name="position"/>
       <state_interface name="velocity"/>
-      <state_interface name="effort"/>
     </joint>
     <joint name="thumb_dip_joint">
       <state_interface name="position"/>
       <state_interface name="velocity"/>
-      <state_interface name="effort"/>
     </joint>
 </ros2_control>
 
 <gazebo>
   <plugin filename="libign_ros2_control-system.so" name="ign_ros2_control::IgnitionROS2ControlPlugin">
-    <parameters>$(find Ust_description)/config/controllers.yaml</parameters>
+    <parameters>$(find Ust_description)/config/effort_trajectory_controller.yaml</parameters>
   </plugin>
 </gazebo>
 
