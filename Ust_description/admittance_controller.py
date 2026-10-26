@@ -4,16 +4,30 @@ from std_msgs.msg import Float64
 from sensor_msgs.msg import JointState
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 from std_msgs.msg import Float32, Float32MultiArray
-import numpy as np
+from std_msgs.msg import Float64MultiArray
 
 
 class JointAdmitController(Node):
 
     def __init__(self):
         super().__init__("joint_admittance_controller_node")
-        from std_msgs.msg import Float64MultiArray
         self._tau_ext_sub = self.create_subscription(
             Float64MultiArray, "/assist_torque_cmd", self.tau_ext_callback, 10
+        )
+
+        # EMG subscriber (std_msgs/Float32, same as test_data_sender.py)
+        self.emg_value = 0.0
+        self._emg_sub = self.create_subscription(
+            Float32, "/emg", self.emg_callback, 10
+        )
+
+        # Torque (Nm) added to every joint when EMG = 1.0
+        self.declare_parameter("emg_gain", 0.5)
+        self.emg_gain = self.get_parameter("emg_gain").value
+
+        # Debug publisher: the computed desired joint positions
+        self._debug_pub = self.create_publisher(
+            Float64MultiArray, "/admittance/debug_output", 10
         )
 
         # =========================================================
@@ -141,7 +155,7 @@ class JointAdmitController(Node):
         # =========================================================
 
         self.joint_position = np.zeros(self.num_joints)
-        self.tau_ext = np.zeros(self.num_joints)
+        self.tau_assist = np.zeros(self.num_joints)
         self.joint_velocity = np.zeros(self.num_joints)
 
         self.joint_state_received = False
@@ -153,7 +167,10 @@ class JointAdmitController(Node):
                 f"Expected {self.num_joints} torques, got {data.shape[0]}"
             )
             return
-        self.tau_ext = data
+        self.tau_assist = data
+
+    def emg_callback(self, msg):
+        self.emg_value = float(msg.data)
 
     # =============================================================
     # Joint state callback
@@ -218,6 +235,9 @@ class JointAdmitController(Node):
         damping_force = self.B * self.theta_dot_des
 
         spring_force = self.K * self.theta_des
+
+        # EMG torque (same on every joint) + torque from /assist_torque_cmd
+        self.tau_ext = self.tau_assist + self.emg_gain * self.emg_value
 
         tau_net = (
             self.tau_ext
@@ -313,18 +333,14 @@ class JointAdmitController(Node):
         # Debug output
         # =========================================================
 
+        debug_msg = Float64MultiArray()
+        debug_msg.data = self.theta_des.tolist()
+        self._debug_pub.publish(debug_msg)
+
         self.get_logger().info(
-            f"\n"
-            f"Pinky  : pos={self.theta_des[0]:.3f}, "
-            f"vel={self.theta_dot_des[0]:.3f}\n"
-            f"Ring   : pos={self.theta_des[1]:.3f}, "
-            f"vel={self.theta_dot_des[1]:.3f}\n"
-            f"Middle : pos={self.theta_des[2]:.3f}, "
-            f"vel={self.theta_dot_des[2]:.3f}\n"
-            f"Index  : pos={self.theta_des[3]:.3f}, "
-            f"vel={self.theta_dot_des[3]:.3f}\n"
-            f"Thumb  : pos={self.theta_des[4]:.3f}, "
-            f"vel={self.theta_dot_des[4]:.3f}"
+            f"EMG={self.emg_value:.3f} | "
+            f"theta_des={np.round(self.theta_des, 3).tolist()}",
+            throttle_duration_sec=1.0
         )
 
 

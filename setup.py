@@ -32,7 +32,7 @@ setup(
             'synthetic_emg_publisher = Ust_description.synthetic_emg_publisher:main',
             'synthetic_fsr_publisher = Ust_description.synthetic_fsr_publisher:main',
             'force_assist_controller = Ust_description.force_assist_controller:main',
-            
+            'joint_plotter = Ust_description.joint_plotter:main',
         ],
     },
 )
