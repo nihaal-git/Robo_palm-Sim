@@ -98,6 +98,14 @@ def generate_launch_description():
         output="screen"
     )
 
+    # activates joint_plotter
+    joint_plotter_node = Node(
+        package="Ust_description",
+        executable="joint_plotter",
+        name="joint_plotter_node",
+        output="screen",
+    )
+
     ld = LaunchDescription()
     ld.add_action(use_sim_time_arg)
     ld.add_action(pause_sim_arg)
@@ -107,4 +115,5 @@ def generate_launch_description():
     ld.add_action(robot_state_publisher_node)
     ld.add_action(joint_state_broadcaster_spawner)
     ld.add_action(mcp_trajectory_controller_spawner)
+    ld.add_action(joint_plotter_node)
     return ld

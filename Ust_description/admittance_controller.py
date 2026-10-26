@@ -5,7 +5,7 @@ from sensor_msgs.msg import JointState
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 from std_msgs.msg import Float32, Float32MultiArray
 from std_msgs.msg import Float64MultiArray
-
+import numpy as np
 
 class JointAdmitController(Node):
 

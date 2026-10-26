@@ -39,7 +39,7 @@ class JointPlotter(Node):
 
         # ---- Parameters (settings you can change without editing code) ----
         self.declare_parameter("topic", "/joint_states")
-        self.declare_parameter("joints", [""])          # [""] means "all joints"
+        self.declare_parameter("joints", ["pinky_mcp_joint","ring_mcp_joint","middle_mcp_joint","index_mcp_joint","thumb_mcp_joint"])          # [""] means "all joints"
         self.declare_parameter("window_seconds", 10.0)  # how much history to show
         self.declare_parameter("save_path", "/tmp/joint_plot.png")
 
