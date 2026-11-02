@@ -80,7 +80,15 @@ def generate_launch_description():
         arguments=["mcp_trajectory_controller"],
         output="screen"
     )
-    
+
+    # activates pip_dip_trajectory_controller (holds the pip/dip joints)
+    pip_dip_trajectory_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["pip_dip_trajectory_controller"],
+        output="screen"
+    )
+
 
 
     # spawn model in gz sim
@@ -115,5 +123,6 @@ def generate_launch_description():
     ld.add_action(robot_state_publisher_node)
     ld.add_action(joint_state_broadcaster_spawner)
     ld.add_action(mcp_trajectory_controller_spawner)
+    ld.add_action(pip_dip_trajectory_controller_spawner)
     ld.add_action(joint_plotter_node)
     return ld

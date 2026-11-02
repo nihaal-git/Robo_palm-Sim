@@ -135,6 +135,28 @@ class JointAdmitController(Node):
             1.0,
         ])
 
+        # Joint position limits from Ust.urdf, shrunk by a margin.
+        # A joint driven exactly onto its lower limit locks there in
+        # Gazebo, and an unreachable target makes the trajectory
+        # controller give up and hold ALL joints where they are.
+        position_margin = 0.02
+
+        self.theta_des_min = np.array([
+            -0.7,   # pinky
+            -0.7,   # ring
+            -0.7,   # middle
+            -0.7,   # index
+            -0.35,  # thumb
+        ]) + position_margin
+
+        self.theta_des_max = np.array([
+            1.0,    # pinky
+            1.0,    # ring
+            1.0,    # middle
+            1.0,    # index
+            0.65,   # thumb
+        ]) - position_margin
+
         # =========================================================
         # External torque
         #
@@ -288,6 +310,23 @@ class JointAdmitController(Node):
             self.theta_dot_des *
             self.timer_period
         )
+
+        # ---------------------------------------------------------
+        # Position limits (stop the virtual joint at the limit)
+        # ---------------------------------------------------------
+
+        at_limit = (
+            (self.theta_des < self.theta_des_min) |
+            (self.theta_des > self.theta_des_max)
+        )
+
+        self.theta_des = np.clip(
+            self.theta_des,
+            self.theta_des_min,
+            self.theta_des_max
+        )
+
+        self.theta_dot_des[at_limit] = 0.0
 
         # =========================================================
         # Create JointTrajectory message

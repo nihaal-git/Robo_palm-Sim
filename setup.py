@@ -33,6 +33,7 @@ setup(
             'synthetic_fsr_publisher = Ust_description.synthetic_fsr_publisher:main',
             'force_assist_controller = Ust_description.force_assist_controller:main',
             'joint_plotter = Ust_description.joint_plotter:main',
+            'adaptive_admittance_controller = Ust_description.adaptive_admittance_controller:main',
         ],
     },
 )

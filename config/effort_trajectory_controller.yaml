@@ -5,6 +5,8 @@ controller_manager:
       type: joint_state_broadcaster/JointStateBroadcaster
     mcp_trajectory_controller:
       type: "joint_trajectory_controller/JointTrajectoryController"
+    pip_dip_trajectory_controller:
+      type: "joint_trajectory_controller/JointTrajectoryController"
 
 mcp_trajectory_controller:
   ros__parameters:
@@ -40,32 +42,142 @@ mcp_trajectory_controller:
       thumb_mcp_joint:  { trajectory: 0.0, goal: 0.1 }
   
     # # --- PID gains ---
+    # Velocity command: the PID d term acts on velocity error, so with d >= 1.0 the
+    # commanded velocity flips sign every cycle at the goal (chatter). Keep d at 0.
+    # i_clamp defaults to 0, which silently disables the i term.
     gains:
       pinky_mcp_joint:
         p: 20.0
         i: 2.0
-        d: 1.0
+        d: 0.0
+        i_clamp: 0.5
         ff_velocity_scale: 1.0
       ring_mcp_joint:   
         p: 20.0
         i: 2.0
-        d: 1.0
+        d: 0.0
+        i_clamp: 0.5
         ff_velocity_scale: 1.0
         # TODO: add output response clamping
       middle_mcp_joint:
         p: 20.0
         i: 2.0
-        d: 1.0
+        d: 0.0
+        i_clamp: 0.5
         ff_velocity_scale: 1.0
       index_mcp_joint:
         p: 20.0
         i: 2.0
-        d: 1.0
+        d: 0.0
+        i_clamp: 0.5
         ff_velocity_scale: 1.0
       thumb_mcp_joint:  
         p: 20.0
         i: 2.0
-        d: 1.0
+        d: 0.0
+        i_clamp: 0.5
         ff_velocity_scale: 1.0
-    
- 
+
+# Holds the PIP/DIP joints (default: their spawn position). Without it they are
+# unactuated and swing whenever the MCP joints move.
+pip_dip_trajectory_controller:
+  ros__parameters:
+    joints:
+      - pinky_pip_joint
+      - pinky_dip_joint
+      - ring_pip_joint
+      - ring_dip_joint
+      - middle_pip_joint
+      - middle_dip_joint
+      - index_pip_joint
+      - index_dip_joint
+      - thumb_pip_joint
+      - thumb_dip_joint
+
+    command_interfaces:
+      - velocity
+
+    state_interfaces:
+      - position
+      - velocity
+
+    allow_partial_joints_goal: true
+    allow_trajectory_replacement: true
+    action_monitor_rate: 20.0
+    interpolation_method: splines
+    open_loop_control: false
+    constraints:
+      stopped_velocity_tolerance: 0.05
+      goal_time: 1.0
+      pinky_pip_joint:  { trajectory: 0.0, goal: 0.1 }
+      pinky_dip_joint:  { trajectory: 0.0, goal: 0.1 }
+      ring_pip_joint:   { trajectory: 0.0, goal: 0.1 }
+      ring_dip_joint:   { trajectory: 0.0, goal: 0.1 }
+      middle_pip_joint: { trajectory: 0.0, goal: 0.1 }
+      middle_dip_joint: { trajectory: 0.0, goal: 0.1 }
+      index_pip_joint:  { trajectory: 0.0, goal: 0.1 }
+      index_dip_joint:  { trajectory: 0.0, goal: 0.1 }
+      thumb_pip_joint:  { trajectory: 0.0, goal: 0.1 }
+      thumb_dip_joint:  { trajectory: 0.0, goal: 0.1 }
+
+    gains:
+      pinky_pip_joint:
+        p: 20.0
+        i: 2.0
+        d: 0.0
+        i_clamp: 0.5
+        ff_velocity_scale: 1.0
+      pinky_dip_joint:
+        p: 20.0
+        i: 2.0
+        d: 0.0
+        i_clamp: 0.5
+        ff_velocity_scale: 1.0
+      ring_pip_joint:
+        p: 20.0
+        i: 2.0
+        d: 0.0
+        i_clamp: 0.5
+        ff_velocity_scale: 1.0
+      ring_dip_joint:
+        p: 20.0
+        i: 2.0
+        d: 0.0
+        i_clamp: 0.5
+        ff_velocity_scale: 1.0
+      middle_pip_joint:
+        p: 20.0
+        i: 2.0
+        d: 0.0
+        i_clamp: 0.5
+        ff_velocity_scale: 1.0
+      middle_dip_joint:
+        p: 20.0
+        i: 2.0
+        d: 0.0
+        i_clamp: 0.5
+        ff_velocity_scale: 1.0
+      index_pip_joint:
+        p: 20.0
+        i: 2.0
+        d: 0.0
+        i_clamp: 0.5
+        ff_velocity_scale: 1.0
+      index_dip_joint:
+        p: 20.0
+        i: 2.0
+        d: 0.0
+        i_clamp: 0.5
+        ff_velocity_scale: 1.0
+      thumb_pip_joint:
+        p: 20.0
+        i: 2.0
+        d: 0.0
+        i_clamp: 0.5
+        ff_velocity_scale: 1.0
+      thumb_dip_joint:
+        p: 20.0
+        i: 2.0
+        d: 0.0
+        i_clamp: 0.5
+        ff_velocity_scale: 1.0
