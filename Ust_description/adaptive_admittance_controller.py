@@ -17,6 +17,9 @@ Signal chain (paper Fig. 2), one independent loop per joint:
 
 "Human force" f_H is the joint torque from /assist_torque_cmd plus
 emg_gain * /emg, as in admittance_controller.py.
+
+With use_external_intention (default), K_HII is read from /intention
+instead of the fuzzy estimator; the rest of the chain is unchanged.
 """
 
 import numpy as np
@@ -149,6 +152,12 @@ class AdaptiveAdmittanceController(Node):
         # range but stops the integral running away during long holds.
         self.declare_parameter("intention_integral_limit", 6.0)
 
+        # Take K_HII from /intention (Float64MultiArray, values in [-1, 1],
+        # 1 value for all joints or 1 per joint) instead of the fuzzy
+        # estimator. K_HII falls back to 0 if no message for the timeout.
+        self.declare_parameter("use_external_intention", True)
+        self.declare_parameter("intention_timeout", 0.5)    # s
+
         # Torque (Nm) added to every joint when EMG = 1.0
         self.declare_parameter("emg_gain", 0.5)
 
@@ -173,6 +182,8 @@ class AdaptiveAdmittanceController(Node):
         self.v_fdot_scale = p("v_fdot_scale")
         self.v_f_scale = p("v_f_scale")
         self.K_m_limit = p("intention_integral_limit")
+        self.use_external_intention = p("use_external_intention")
+        self.intention_timeout = p("intention_timeout")
         self.emg_gain = p("emg_gain")
         self.v_ref_max = p("v_ref_max")
         self.pos_lower = np.array(p("position_lower"), dtype=float)
@@ -215,6 +226,12 @@ class AdaptiveAdmittanceController(Node):
         self.emg_value = 0.0
         self._emg_sub = self.create_subscription(
             Float32, "/emg", self.emg_callback, 10
+        )
+
+        self.intention_value = np.zeros(self.num_joints)
+        self.intention_stamp = None
+        self._intention_sub = self.create_subscription(
+            Float64MultiArray, "/intention", self.intention_callback, 10
         )
 
         self._joint_state_sub = self.create_subscription(
@@ -288,6 +305,19 @@ class AdaptiveAdmittanceController(Node):
     def emg_callback(self, msg):
         self.emg_value = float(msg.data)
 
+    def intention_callback(self, msg):
+        data = np.array(msg.data, dtype=float)
+        if data.shape[0] == 1:
+            data = np.full(self.num_joints, data[0])
+        elif data.shape[0] != self.num_joints:
+            self.get_logger().warn(
+                f"Expected 1 or {self.num_joints} intention values, "
+                f"got {data.shape[0]}"
+            )
+            return
+        self.intention_value = np.clip(data, -1.0, 1.0)
+        self.intention_stamp = self.get_clock().now()
+
     def joint_states_callback(self, msg):
         for i, joint_name in enumerate(self.joint_names):
             if joint_name not in msg.name:
@@ -337,12 +367,14 @@ class AdaptiveAdmittanceController(Node):
         # Adaptation mechanism (Eqs. 4-7)
         # ---------------------------------------------------------
 
-        v = self.joint_velocity
-
-        self.K_hii = human_intention_index(
-            v * self.f_dot / self.v_fdot_scale,
-            v * self.f_filt / self.v_f_scale,
-        )
+        if self.use_external_intention:
+            self.K_hii = self.external_intention()
+        else:
+            v = self.joint_velocity
+            self.K_hii = human_intention_index(
+                v * self.f_dot / self.v_fdot_scale,
+                v * self.f_filt / self.v_f_scale,
+            )
 
         # Eq. 5: K^m(t) = K^m(t-1) + K_HII(t) alpha dt
         self.K_m = np.clip(
@@ -412,6 +444,15 @@ class AdaptiveAdmittanceController(Node):
             f"theta_des={np.round(self.theta_des, 3).tolist()}",
             throttle_duration_sec=1.0,
         )
+
+    def external_intention(self):
+        """Latest /intention value, or 0 (no change) if it has gone stale."""
+        if self.intention_stamp is None:
+            return np.zeros(self.num_joints)
+        age = (self.get_clock().now() - self.intention_stamp).nanoseconds / 1e9
+        if age > self.intention_timeout:
+            return np.zeros(self.num_joints)
+        return self.intention_value.copy()
 
     def publish_debug(self):
         values = {
