@@ -16,7 +16,9 @@ Signal chain (paper Fig. 2), one independent loop per joint:
     velocity, to mcp_trajectory_controller (the robot motion controller).
 
 "Human force" f_H is the joint torque from /assist_torque_cmd plus
-emg_gain * /emg, as in admittance_controller.py.
+emg_gain * /emg, as in admittance_controller.py, times closing_direction:
+both inputs are positive grip strengths, and on this hand a negative MCP
+angle closes the finger.
 
 With use_external_intention (default), K_HII is read from /intention
 instead of the fuzzy estimator; the rest of the chain is unchanged.
@@ -172,6 +174,12 @@ class AdaptiveAdmittanceController(Node):
         # Torque (Nm) added to every joint when EMG = 1.0
         self.declare_parameter("emg_gain", 0.5)
 
+        # Sign of the MCP angle change that closes the finger (-1.0 or 1.0).
+        # On this hand a negative angle closes it (towards the URDF lower
+        # limit), so a positive grip input must drive the joints negative.
+        # 1.0 restores the old behaviour (grip input opens the hand).
+        self.declare_parameter("closing_direction", -1.0)
+
         # Safety limits on the reference. The position limits are the URDF
         # limits shrunk by 0.02 rad: a joint driven exactly onto its URDF
         # lower limit locks there in Gazebo and ignores later commands.
@@ -199,12 +207,15 @@ class AdaptiveAdmittanceController(Node):
         self.use_external_intention = p("use_external_intention")
         self.intention_timeout = p("intention_timeout")
         self.emg_gain = p("emg_gain")
+        self.closing_direction = p("closing_direction")
         self.v_ref_max = p("v_ref_max")
         self.pos_lower = np.array(p("position_lower"), dtype=float)
         self.pos_upper = np.array(p("position_upper"), dtype=float)
 
         if not self.G_min <= self.G_nom <= self.G_max:
             raise ValueError("Require G_min <= G_nom <= G_max")
+        if self.closing_direction not in (-1.0, 1.0):
+            raise ValueError("closing_direction must be -1.0 or 1.0")
 
         # ---------------------------------------------------------
         # Discretizations
@@ -301,7 +312,8 @@ class AdaptiveAdmittanceController(Node):
         self.get_logger().info(
             f"Adaptive admittance: Ka={self.Ka}, tau_a={self.tau_a}, "
             f"G_H in [{self.G_min}, {self.G_max}] (nominal {self.G_nom}), "
-            f"alpha={self.alpha}, dt={self.dt:.4f}s"
+            f"alpha={self.alpha}, dt={self.dt:.4f}s, "
+            f"closing_direction={self.closing_direction:+.0f}"
         )
 
     # =============================================================
@@ -366,7 +378,12 @@ class AdaptiveAdmittanceController(Node):
         # Measured human force f_H, filtered by H(s)
         # ---------------------------------------------------------
 
-        f_raw = self.tau_assist + self.emg_gain * self.emg_value
+        # Grip inputs are positive; closing_direction turns them into a
+        # joint torque that closes the finger. The fuzzy estimator only sees
+        # the products v*f and v*f_dot, which this sign flip leaves unchanged.
+        f_raw = self.closing_direction * (
+            self.tau_assist + self.emg_gain * self.emg_value
+        )
 
         self.f_filt = (
             self.h_b0 * f_raw
