@@ -119,7 +119,12 @@ class AdaptiveAdmittanceController(Node):
         # finger joints (Nm and rad/s).
         # =========================================================
 
-        self.declare_parameter("rate_hz", 100.0)            # [125]
+        # Must stay below the mcp_trajectory_controller update rate (100 Hz).
+        # The JTC starts every new trajectory from the measured joint state;
+        # if a new one arrives every JTC cycle it only ever samples that start
+        # point, so it never corrects the error and the joints just coast.
+        # Run with use_sim_time:=true so this rate is in simulation time too.
+        self.declare_parameter("rate_hz", 50.0)             # [125]
 
         # Admittance Y(s) = Ka / (tau_a s + 1)   (Eq. 3)
         self.declare_parameter("Ka", 2.0)                   # rad/s/Nm [0.0167 m/s/N]
@@ -167,13 +172,15 @@ class AdaptiveAdmittanceController(Node):
         # Torque (Nm) added to every joint when EMG = 1.0
         self.declare_parameter("emg_gain", 0.5)
 
-        # Safety limits on the reference
+        # Safety limits on the reference. The position limits are the URDF
+        # limits shrunk by 0.02 rad: a joint driven exactly onto its URDF
+        # lower limit locks there in Gazebo and ignores later commands.
         self.declare_parameter("v_ref_max", 1.0)            # rad/s
         self.declare_parameter(
-            "position_lower", [-0.7, -0.7, -0.7, -0.7, -0.35]
+            "position_lower", [-0.68, -0.68, -0.68, -0.68, -0.33]
         )
         self.declare_parameter(
-            "position_upper", [1.0, 1.0, 1.0, 1.0, 0.65]
+            "position_upper", [0.98, 0.98, 0.98, 0.98, 0.63]
         )
 
         p = lambda name: self.get_parameter(name).value  # noqa: E731
