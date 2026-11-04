@@ -106,6 +106,16 @@ def generate_launch_description():
         output="screen"
     )
 
+    # bridges the gz sim clock to ROS /clock, so nodes run with
+    # use_sim_time:=true (e.g. adaptive_admittance_controller) tick in sim time
+    clock_bridge_node = Node(
+        package="ros_gz_bridge",
+        executable="parameter_bridge",
+        arguments=["/clock@rosgraph_msgs/msg/Clock[ignition.msgs.Clock"],
+        name="clock_bridge_node",
+        output="screen",
+    )
+
     # activates joint_plotter
     joint_plotter_node = Node(
         package="Ust_description",
@@ -119,6 +129,7 @@ def generate_launch_description():
     ld.add_action(pause_sim_arg)
     ld.add_action(ign_gz_sim_server_launcher)
     ld.add_action(ign_gz_sim_client_launcher)
+    ld.add_action(clock_bridge_node)
     ld.add_action(spawner_node)
     ld.add_action(robot_state_publisher_node)
     ld.add_action(joint_state_broadcaster_spawner)
