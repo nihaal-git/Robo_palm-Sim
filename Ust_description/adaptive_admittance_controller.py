@@ -16,9 +16,11 @@ Signal chain (paper Fig. 2), one independent loop per joint:
     velocity, to mcp_trajectory_controller (the robot motion controller).
 
 "Human force" f_H is the joint torque from /assist_torque_cmd plus
-emg_gain * /emg, as in admittance_controller.py, times closing_direction:
-both inputs are positive grip strengths, and on this hand a negative MCP
-angle closes the finger.
+emg_gain * /emg, times closing_direction: both inputs are positive grip
+strengths, and on this hand a negative MCP angle closes the finger.
+emg_gain defaults to 0 because test_data_sender already scales
+/assist_torque_cmd by EMG (and fades it out by FSR force); adding /emg
+again would count EMG twice and keep pushing past the FSR force limit.
 
 With use_external_intention (default), K_HII is read from /intention
 instead of the fuzzy estimator; the rest of the chain is unchanged.
@@ -178,8 +180,12 @@ class AdaptiveAdmittanceController(Node):
         self.declare_parameter("use_external_intention", True)
         self.declare_parameter("intention_timeout", 0.5)    # s
 
-        # Torque (Nm) added to every joint when EMG = 1.0
-        self.declare_parameter("emg_gain", 0.5)
+        # Torque (Nm) added to every joint when EMG = 1.0, on top of
+        # /assist_torque_cmd. Keep 0 with test_data_sender: its assist torque
+        # is already max_torque * emg * fade(fsr), so a non-zero gain counts
+        # EMG twice and the FSR fade can only halve the force, not remove it.
+        # Only set it for a torque source that does not include EMG.
+        self.declare_parameter("emg_gain", 0.0)
 
         # Sign of the MCP angle change that closes the finger (-1.0 or 1.0).
         # On this hand a negative angle closes it (towards the URDF lower
