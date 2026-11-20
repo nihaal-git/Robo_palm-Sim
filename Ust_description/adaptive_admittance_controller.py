@@ -125,7 +125,14 @@ class AdaptiveAdmittanceController(Node):
         # The JTC starts every new trajectory from the measured joint state;
         # if a new one arrives every JTC cycle it only ever samples that start
         # point, so it never corrects the error and the joints just coast.
-        # Run with use_sim_time:=true so this rate is in simulation time too.
+        #
+        # The loop is clocked by the /joint_states header stamps (simulation
+        # time, one message per JTC cycle), not by a ROS timer. A wall-clock
+        # timer (use_sim_time:=false, the `ros2 run` default) drifts against
+        # the JTC cycle: commands arrive 0, 1 or 2 per cycle, tracking
+        # chatters, and a joint can overshoot onto its URDF limit, where
+        # Gazebo (DART) pins it for good. Clocking on the joint states keeps
+        # exactly one command every rate period of sim time either way.
         self.declare_parameter("rate_hz", 50.0)             # [125]
 
         # Admittance Y(s) = Ka / (tau_a s + 1)   (Eq. 3)
@@ -191,6 +198,18 @@ class AdaptiveAdmittanceController(Node):
             "position_upper", [0.98, 0.98, 0.98, 0.98, 0.63]
         )
 
+        # Soft-limit braking: the reference may approach a position limit no
+        # faster than limit_braking_gain * (distance to the limit), so it
+        # glides into the limit instead of stopping dead on it (a dead stop
+        # at speed overshoots in the JTC and can hit the URDF hard stop).
+        # 1/s; <= 0 disables it.
+        self.declare_parameter("limit_braking_gain", 5.0)
+
+        # A measured position this far past position_lower/upper means the
+        # joint has reached its URDF limit, where Gazebo locks it (it ignores
+        # every later velocity command). Only used to report it.
+        self.declare_parameter("hard_limit_margin", 0.015)  # rad
+
         p = lambda name: self.get_parameter(name).value  # noqa: E731
 
         self.dt = 1.0 / p("rate_hz")
@@ -211,6 +230,8 @@ class AdaptiveAdmittanceController(Node):
         self.v_ref_max = p("v_ref_max")
         self.pos_lower = np.array(p("position_lower"), dtype=float)
         self.pos_upper = np.array(p("position_upper"), dtype=float)
+        self.limit_braking_gain = p("limit_braking_gain")
+        self.hard_limit_margin = p("hard_limit_margin")
 
         if not self.G_min <= self.G_nom <= self.G_max:
             raise ValueError("Require G_min <= G_nom <= G_max")
@@ -307,7 +328,9 @@ class AdaptiveAdmittanceController(Node):
         self.joint_velocity = np.zeros(n)
         self.joint_state_received = False
 
-        self._timer = self.create_timer(self.dt, self.control_loop)
+        # Stamp (s) of the joint state the last control step ran on
+        self.last_step_stamp = None
+        self.pinned = np.zeros(n, dtype=bool)
 
         self.get_logger().info(
             f"Adaptive admittance: Ka={self.Ka}, tau_a={self.tau_a}, "
@@ -365,6 +388,18 @@ class AdaptiveAdmittanceController(Node):
                 "Initialised adaptive admittance controller from "
                 "actual joint positions."
             )
+
+        # Clock the control loop on the joint state stamps (see rate_hz).
+        stamp_ns = msg.header.stamp.sec * 10**9 + msg.header.stamp.nanosec
+        if stamp_ns == 0:
+            stamp_ns = self.get_clock().now().nanoseconds
+        if self.last_step_stamp is None or stamp_ns < self.last_step_stamp:
+            # First message, or the simulation was reset
+            self.last_step_stamp = stamp_ns
+            return
+        if stamp_ns - self.last_step_stamp >= int(self.dt * 1e9) - 1000:
+            self.last_step_stamp = stamp_ns
+            self.control_loop()
 
     # =============================================================
     # Main control loop
@@ -441,6 +476,16 @@ class AdaptiveAdmittanceController(Node):
         )
         self.v_ref = np.clip(self.v_ref, -self.v_ref_max, self.v_ref_max)
 
+        # Soft-limit braking: cap the speed toward each limit in proportion
+        # to the remaining distance, so theta_des glides into the limit.
+        if self.limit_braking_gain > 0.0:
+            k = self.limit_braking_gain
+            self.v_ref = np.clip(
+                self.v_ref,
+                -k * np.maximum(self.theta_des - self.pos_lower, 0.0),
+                k * np.maximum(self.pos_upper - self.theta_des, 0.0),
+            )
+
         # ---------------------------------------------------------
         # Integrate to a position reference, respecting joint limits.
         # At a limit, drop the velocity component that pushes into it
@@ -472,6 +517,7 @@ class AdaptiveAdmittanceController(Node):
         self._joint_command_pub.publish(msg)
 
         self.publish_debug()
+        self.check_pinned_joints()
 
         self.get_logger().info(
             f"EMG={self.emg_value:.3f} | "
@@ -479,6 +525,20 @@ class AdaptiveAdmittanceController(Node):
             f"theta_des={np.round(self.theta_des, 3).tolist()}",
             throttle_duration_sec=1.0,
         )
+
+    def check_pinned_joints(self):
+        """Report joints that have reached their URDF hard limit."""
+        m = self.hard_limit_margin
+        pinned = ((self.joint_position < self.pos_lower - m)
+                  | (self.joint_position > self.pos_upper + m))
+        for i in np.flatnonzero(pinned & ~self.pinned):
+            self.get_logger().error(
+                f"{self.joint_names[i]} is at its URDF limit "
+                f"({self.joint_position[i]:+.3f} rad). Gazebo locks a "
+                "velocity-controlled joint there and ignores later commands; "
+                "restart the simulation to free it."
+            )
+        self.pinned = pinned
 
     def external_intention(self):
         """Latest /intention value, or 0 (no change) if it has gone stale."""

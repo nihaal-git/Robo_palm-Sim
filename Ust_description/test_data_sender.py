@@ -73,8 +73,9 @@ class TestDataSender(Node):
         self.torque_pub = self.create_publisher(Float64MultiArray, torque_topic, 10)
 
         self.phase_index = 0
-        self.phase_start = self.get_clock().now()
-        self.get_logger().info(f"Phase: {PHASES[0][0]}")
+        # Set on the first tick: with use_sim_time:=true the clock still reads
+        # 0 here (no /clock yet), which would skip straight past "rest".
+        self.phase_start = None
 
         # Timer = calls self.tick() again and again at the chosen rate
         self.create_timer(1.0 / rate_hz, self.tick)
@@ -83,6 +84,10 @@ class TestDataSender(Node):
 
     def tick(self):
         name, duration, e0, e1, f0, f1 = PHASES[self.phase_index]
+
+        if self.phase_start is None:
+            self.phase_start = self.get_clock().now()
+            self.get_logger().info(f"Phase: {name}")
 
         elapsed = (self.get_clock().now() - self.phase_start).nanoseconds / 1e9
 

@@ -51,6 +51,7 @@ New nodes must be registered in `setup.py` `entry_points` to be runnable with `r
    - Keep PID `d: 0` in velocity mode: d acts on velocity error and with `d >= 1` the command flips sign every cycle (chatter). `i` has no effect unless `i_clamp` is set (defaults to 0).
    - The JTC checks goal tolerances on topic goals too: if any joint is outside `goal` tolerance (or moving faster than `stopped_velocity_tolerance`) at `goal_time` after the trajectory end, it logs `Exceeded goal_time_tolerance: holding position...` and freezes **all** its joints where they are. Unreachable targets (e.g. beyond a joint limit) trigger this.
    - A joint driven exactly onto its URDF **lower** limit locks there in Gazebo and does not respond to later goals. Keep targets slightly inside the limits (`admittance_controller` clamps with a 0.02 rad margin).
+   - Streaming nodes must stay in step with the 100 Hz JTC cycle. A 50 Hz wall-clock ROS timer (the `ros2 run` default, no `use_sim_time`) drifts against it, so tracking chatters and joints overshoot onto the hard limit and lock (this was the "ring_mcp_joint not moving" bug). `adaptive_admittance_controller` therefore clocks its loop on `/joint_states` header stamps and brakes the reference near the soft limits (`limit_braking_gain`). Don't go back to a timer.
 
 When changing control mode (e.g. velocity → effort/position), update the URDF `<ros2_control>` command interfaces, the controller YAML, and the spawner names in the launch file together.
 

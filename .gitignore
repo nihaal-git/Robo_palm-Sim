@@ -3,3 +3,4 @@ __pycache__/
 build/
 install/
 log/
+__pycache__/test_data_sender.cpython-310.pyc
